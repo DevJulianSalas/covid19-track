@@ -1,22 +1,26 @@
 import React from 'react'
 import { Select } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 
+const { Option } = Select
 
 const Search = (props) => {
+  console.log(props)
   return (
     <Select
         showSearch
-        value={''}
-        placeholder={''}
-        style={props.style}
-        defaultActiveFirstOption={false}
-        showArrow={false}
-        filterOption={false}
-        onSearch=''
-        onChange=''
-        notFoundContent={null}
+        allowClear
+        placeholder={props.placeHolder}
+        style={props.styles}
+        value={props.selectedValue}
+        suffixIcon = { <SearchOutlined style={{fontSize: '15px'}} twoToneColor="#141414"/>}
+        onChange={(choice) => props.onChangeOpt(choice)}
       >
-      { props.options }
+         { props.options.map(item => (
+          <Option key={item.value} value={item.text}>
+            {item.text}
+          </Option>
+        ))}
     </Select>
   )
 }
