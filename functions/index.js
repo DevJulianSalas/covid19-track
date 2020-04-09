@@ -38,15 +38,16 @@ const covidFunctionParms = {
 }
 
 //cloud functions
-exports.getCovidDataApi = functions.pubsub.schedule('0 12 * * *')
+exports.getCovidDataApi = functions
   .runWith(covidFunctionParms)
-  .timeZone('America/Bogota')
-  .onRun(async(context) => {
-    const covidData = await getDataApi(URL_COVID)
-    if (covidData) {
-      covidData.forEach(async(document) => {
-        await db.collection('covid-data').doc(document.id_de_caso).set(document)
-      })
-    }
-  })
+  .pubsub.schedule('0 12 * * *')
+    .timeZone('America/Bogota')
+    .onRun(async(context) => {
+      const covidData = await getDataApi(URL_COVID)
+      if (covidData) {
+        covidData.forEach(async(document) => {
+          await db.collection('covid-data').doc(document.id_de_caso).set(document)
+        })
+      }
+    })
 
