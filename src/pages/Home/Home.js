@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Row, Col } from 'antd';
 import Search from '../../components/Search/Search'
-
+import CardInfo from '../../components/CardInfo/CardInfo'
 
 //styles
 import './home.scss'
@@ -21,7 +21,6 @@ const Home = () => {
 
   const onChangeOpt = ( option ) => {
     setselectedValue(option)
-    console.log(option)
   }
 
   return (
@@ -35,6 +34,11 @@ const Home = () => {
             placeHolder={'Buscar por cuidad'}
             onChangeOpt={ onChangeOpt }
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={24} xs={24}>
+          <CardInfo />
         </Col>
       </Row>
     </>
