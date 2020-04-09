@@ -17,10 +17,11 @@ const URL_COVID = 'https://www.datos.gov.co/resource/gt2j-8ykr.json'
 const getDataApi = async(url) => {
   try {
     const { status, data } = await axios.get(url, {
-      '$limit': '5000', '$$app_token': functions.config().soda.token
+      params: {
+        '$limit': '5000', 
+        '$$app_token': functions.config().soda.token
+      }
     })
-    console.log(status)
-    console.log(data)
     if (status === 200) {
       return data
     }
@@ -30,17 +31,22 @@ const getDataApi = async(url) => {
 }
 
 
+//params cloud function
+const covidFunctionParms = {
+  timeoutSeconds: 200,
+  memory: '256MB'
+}
+
 //cloud functions
-exports.getCovidDataApi = functions.pubsub.schedule('*/2 * * * *')
+exports.getCovidDataApi = functions.pubsub.schedule('0 12 * * *')
+  .runWith(covidFunctionParms)
   .timeZone('America/Bogota')
   .onRun(async(context) => {
     const covidData = await getDataApi(URL_COVID)
-    console.log('*****')
-    console.log(covidData)
-    console.log('*****')
     if (covidData) {
-      for (const document of covidData) {
-        db.collection('covid-data').doc(document.id_de_caso).set(document)
-      }
+      covidData.forEach(async(document) => {
+        await db.collection('covid-data').doc(document.id_de_caso).set(document)
+      })
     }
   })
+
