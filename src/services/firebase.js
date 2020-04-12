@@ -10,5 +10,7 @@ const config = {
   appId: process.env.REACT_APP_APPID,
   measurementId: "G-X7Q08DCMV7"
 };
+
 firebase.initializeApp(config);
-export default firebase;
+const db = firebase.firestore();
+export default db;
