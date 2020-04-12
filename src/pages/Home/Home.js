@@ -3,6 +3,9 @@ import { Row, Col } from 'antd';
 import Search from '../../components/Search/Search'
 import CardInfo from '../../components/CardInfo/CardInfo'
 
+//firebase
+import { getGeneralData } from '../../api/index'
+
 //styles
 import './home.scss'
 
@@ -18,6 +21,8 @@ const Home = () => {
     {value: 2, text: 'Tomato'},
     {value: 3, text: 'Banana'}
   ])
+
+  getGeneralData()
 
   const onChangeOpt = ( option ) => {
     setselectedValue(option)
