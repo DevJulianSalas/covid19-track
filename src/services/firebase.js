@@ -4,7 +4,7 @@ const config = {
   apiKey: process.env.REACT_APP_KEY_FIREBASE,
   authDomain: process.env.REACT_APP_DOMAIN_FIREBASE,
   databaseURL: process.env.REACT_APP_DATABASE,
-  projectId: "covid19-track-7231c",
+  projectId: process.env.REACT_APP_FIREBASE_ID,
   storageBucket: "covid19-track-7231c.appspot.com",
   messagingSenderId: "484808473207",
   appId: process.env.REACT_APP_APPID,
