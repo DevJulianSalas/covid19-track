@@ -43,19 +43,6 @@ const getMetadataApi = async(url) => {
   }
 }
 
-//helpers
-const setDataApi = async() => {
-  try {
-    const data = await getDataApi(URL_API)
-    if (data) {
-      return data 
-    }
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-
 //params cloud function
 const runningParams = {
   timeoutSeconds: 500,
@@ -64,23 +51,17 @@ const runningParams = {
 
 //cloud functions
 exports.getDataApi = functions
-  .runWith(runningParams)
+  .runWith({memory: '512MB'})
   .pubsub
   .topic(functions.config().gdcloud.topicname)
   .onPublish(async(message) => {
     const promises = []
-    console.log("****")
-    console.log(message)
-    console.log("****")
-    return 'testing'
-    // const data = await setDataApi()
-    // data.forEach(async(document) => {
-    //     const insertDoc = db.collection('covid-data').doc(document.id_de_caso).set(document)
-    //     promises.push(insertDoc)
-    // })
-    // return Promise.all(promises)
-    //   .then()
-    //   .catch((err) => console.log(err))
+    const data = await getDataApi(URL_API)
+    data.forEach(document => {
+      const insertDoc = db.collection('covid-data').doc(document.id_de_caso).set(document)
+      promises.push(insertDoc)
+    })
+    return Promise.all(promises)
   })
 
 exports.getMetadataApi = functions
