@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col } from 'antd';
 import Search from '../../components/Search/Search'
 import CardInfo from '../../components/CardInfo/CardInfo'
 
 //firebase
-import { getGeneralData } from '../../api/index'
+import { getGeneralData, getCities, getDataByCity } from '../../api/index'
 
 //styles
 import './home.scss'
@@ -15,17 +15,39 @@ const searchStyles = {
 }
 
 const Home = () => {
-  const [selectedValue, setselectedValue] = useState(undefined)
+  const [selectedValue, setselectedValue] = useState('')
+  const [covidData, setcovidData] = useState({})
+  const [loading, setLoading] = useState(false)
   const [choices, setchoices] = useState([
-    {value: 1, text: 'Apple'},
-    {value: 2, text: 'Tomato'},
-    {value: 3, text: 'Banana'}
+    {
+      city: 'Bogotá D.C.',
+      cod: '11001'
+    },
+    {
+      city: 'Arenal',
+      cod: '13042'
+    }
   ])
 
-  getGeneralData()
+  useEffect(() => {
+    const getCities = async() => {
+      setLoading(true)
+      setTimeout(() => {
+        console.log('dd')
+        setLoading(false)
+      }, 3000);
+    }
+    getCities()
+  }, [])
 
-  const onChangeOpt = ( option ) => {
+  // getGeneralData()
+
+  const onChangeOpt = async( option ) => {
     setselectedValue(option)
+    setLoading(true)
+    const data = await getDataByCity(option)
+    setLoading(false)
+    setcovidData({...covidData, ...data})
   }
 
   return (
@@ -43,7 +65,7 @@ const Home = () => {
       </Row>
       <Row>
         <Col lg={24} xs={24}>
-          <CardInfo />
+          <CardInfo covidData={covidData} loading={loading}/>
         </Col>
       </Row>
     </>

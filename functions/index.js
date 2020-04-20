@@ -1,15 +1,13 @@
 //imports
 const axios = require('axios')
-const { 
-  authorizeGmail, 
-  setCodeCredentials,
-  watchEmail } = require('./gmailApi')
+const { authorizeGmail, setCodeCredentials, watchEmail } = require('./gmailApi')
 const functions = require('firebase-functions');
 const admin = require('firebase-admin')
+const { db } = require('./db')
 
-//initializers
-admin.initializeApp(functions.config().firebase);
-let db = admin.firestore();
+//endpoints
+exports.api = require('./api')
+
 
 //const
 const URL_API = 'https://www.datos.gov.co/resource/gt2j-8ykr.json'
@@ -66,7 +64,7 @@ exports.getDataApi = functions
 
 exports.getMetadataApi = functions
   .runWith(runningParams)
-  .pubsub.schedule('0 12 * * *')
+  .topic(functions.config().gdcloud.topicname)
   .onRun(async(context) => {
     const covidMeta = await getMetadataApi(URL_METADATA)
     if (covidMeta) {

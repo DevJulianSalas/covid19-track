@@ -17,8 +17,8 @@ const Search = (props) => {
         onChange={(choice) => props.onChangeOpt(choice)}
       >
          { props.options.map(item => (
-          <Option key={item.value} value={item.text}>
-            {item.text}
+          <Option key={item.city} value={item.city}>
+            {item.city}
           </Option>
         ))}
     </Select>
