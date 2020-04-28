@@ -1,0 +1,16 @@
+FROM python:3.6
+
+#Environment variables
+ENV USER=desarrollo
+ENV HOME_DIR=home/desarrollo
+ENV SHELL=/bin/bash
+
+RUN apt-get update -y
+RUN useradd -ms $SHELL $USER && chown -R $USER:$USER /$HOME_DIR
+RUN apt-get install -y cron
+COPY requirements.txt /tmp/
+RUN pip install -r /tmp/requirements.txt
+ADD ./code /$HOME_DIR
+WORKDIR /$HOME_DIR
+USER $USER
+

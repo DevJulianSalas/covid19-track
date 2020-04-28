@@ -1,0 +1,38 @@
+version: "3"
+services:
+  api-data:
+    image: api-cod-js:lastest
+    stdin_open: true
+    tty: true
+    build:
+      context: ./server
+    container_name: api_cod_js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/home/app
+    command: /bin/bash -c "sleep 5 && yarn start"
+
+  schedule-api:
+    image: schedule-api-cod:lastest
+    stdin_open: true
+    tty: true
+    build:
+      context: ./schedulers
+    container_name: schedule_api_cod
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./schedulers/code:/home/desarrollo
+    env_file:
+      - env/dev.env
+    command: /bin/bash -c "sleep 5 && celery -A tasks worker -B --loglevel=info"
+  
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq
+    env_file:
+      - env/dev.env
+    ports:
+      - "5672:5672"  
+      - "15672:15672"
