@@ -29,25 +29,26 @@ const Home = () => {
     }
   ])
 
-  useEffect(() => {
-    const getCities = async() => {
-      setLoading(true)
-      setTimeout(() => {
-        console.log('dd')
-        setLoading(false)
-      }, 3000);
-    }
-    getCities()
-  }, [])
+  // useEffect(() => {
+  //   const getCities = async() => {
+  //     setLoading(true)
+  //     setTimeout(() => {
+  //       console.log('dd')
+  //       setLoading(false)
+  //     }, 3000);
+  //   }
+  //   getCities()
+  // }, [])
 
   // getGeneralData()
 
   const onChangeOpt = async( option ) => {
-    setselectedValue(option)
-    setLoading(true)
-    const data = await getDataByCity(option)
-    setLoading(false)
-    setcovidData({...covidData, ...data})
+    console.log('s')
+    // setselectedValue(option)
+    // setLoading(true)
+    // const data = await getDataByCity(option)
+    // setLoading(false)
+    // setcovidData({...covidData, ...data})
   }
 
   return (

@@ -2,6 +2,7 @@ version: "3"
 services:
   api-data:
     image: api-cod-js:lastest
+    restart: on-failure
     stdin_open: true
     tty: true
     build:
@@ -11,10 +12,13 @@ services:
       - "3000:3000"
     volumes:
       - ./server:/home/app
-    command: /bin/bash -c "sleep 5 && yarn start"
+    env_file:
+      - env/dev.env
+    command: /bin/bash -c "sleep 15 && yarn dev"
 
   schedule-api:
     image: schedule-api-cod:lastest
+    restart: on-failure
     stdin_open: true
     tty: true
     build:
@@ -26,13 +30,28 @@ services:
       - ./schedulers/code:/home/desarrollo
     env_file:
       - env/dev.env
-    command: /bin/bash -c "sleep 5 && celery -A tasks worker -B --loglevel=info"
+    command: /bin/bash -c "sleep 15 && celery -A tasks worker -B --loglevel=info"
   
   rabbit:
     hostname: rabbit
     image: rabbitmq
+    restart: on-failure
     env_file:
       - env/dev.env
     ports:
       - "5672:5672"  
       - "15672:15672"
+
+  db_mongo:
+    image: mongo:4.2.6-bionic
+    restart: on-failure
+    env_file:
+      - env/dev.env
+    ports:
+      - "27018:27017"
+    volumes: 
+      - ./home/mongodb:/home/mongodb
+      - ./data/db:/data/db
+      - ./config/:/data/configdb
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      
