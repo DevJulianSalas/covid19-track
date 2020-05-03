@@ -14,7 +14,7 @@ const getMeasurements = async(col, city) => {
      measur4 = await col.find({ciudad_de_ubicaci_n: city, estado:'Leve'}).count()
   }
   return { 
-    'infect': measur1,
+    'infected': measur1,
     'deceased': measur2, 
     'recover': measur3, 
     'mild': measur4 
@@ -24,12 +24,20 @@ const getMeasurements = async(col, city) => {
 module.exports = async function (fastify, opts) {
   fastify.get('/measurements/:city', async function (request, reply) {
     const city = request.params.city
-    console.log(request.params)
-    console.log('*****')
-    console.log(decodeURI(city))
+    let resp = null
     const col = this.mongo.db.collection('measurements')
-    const rsp = await getMeasurements(col, city)
-    return rsp
+    const cityMatch = await this.mongo.db.collection('cities')
+      .find({'$text': {'$search': city, "$caseSensitive": false}})
+      .limit(1)
+      .toArray()
+    
+    if (cityMatch.length > 0) {
+      const { cuidad } = cityMatch[0]
+      resp = await getMeasurements(col, cuidad)
+    } else {
+      resp = await getMeasurements(col, '')
+    }
+    return resp
   })
   fastify.post(
     '/measurements',
@@ -66,4 +74,13 @@ module.exports = async function (fastify, opts) {
         return error
       }
   })
+  fastify.get(
+    '/cities/',
+    async function (request, reply) {
+      return this.mongo.db
+        .collection('cities')
+        .find()
+        .toArray()
+    }
+  )
 }

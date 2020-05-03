@@ -1,71 +1,37 @@
-import db from '../services/firebase'
+import axios from 'axios'
 
-export async function getGeneralData () {
+const headers = {
+  'Content-Type': 'application/json'
+}
+
+const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_API,
+    headers: headers
+});
+
+
+export async function getCities() {
   try {
-    const snap = await db.collection('covid-data').get()
-    if (!snap.empty){
-      console.log(snap.size)
+    const {status, data } = await axiosInstance.get('/cities/')
+    if (status === 200) {
+      return data
     }
   } catch (error) {
     console.log(error)
   }
 }
 
-
-export async function getCities(){
+export async function getCovData(city) {
   try {
-    const snap = await db.collection('cities').get()
-    if(!snap.empty){
-      return snap.map(doc => doc.data())
+    const { status, data } = city 
+      ? await axiosInstance.get(`/measurements/${city}`) 
+      : await axiosInstance.get('/measurements/') 
+    if (status === 200) {
+      return data
     }
   } catch (error) {
     console.log(error)
-    
   }
 }
 
-export async function getDataByCity(option){
-  try {
-    let allDataCity = {}
-    const covRef = db.collection('covid-data')
-    const snap = await covRef.where('ciudad_de_ubicaci_n', '==', `${option}`)
-      .limit(2000)
-      .get()
-    
-    if (!snap.empty) {
-      allDataCity['infected'] = snap.size
-    }
-    const snapA = await covRef
-      .where('ciudad_de_ubicaci_n', '==', `${option}`)
-      .where('estado', '==', 'Fallecido')
-      .limit(2000)
-      .get()
-    
-    if (!snapA.empty){
-      allDataCity['deceased'] = snapA.size
-      
-    }
-    const snapB = await covRef
-      .where('ciudad_de_ubicaci_n', '==', `${option}`)
-      .where('atenci_n', '==', 'Recuperado')
-      .limit(2000)
-      .get()
-    
-    if (!snapB.empty){
-      allDataCity['recover'] = snapB.size
-    }
-    const snapC = await covRef
-      .where('ciudad_de_ubicaci_n', '==', `${option}`)
-      .where('estado', '==', 'Leve')
-      .limit(2000)
-      .get()
-    
-    if (!snapC.empty){
-      allDataCity['mild'] = snapC.size
-    }
-    return allDataCity
-  } catch (error) {
-    console.log(error)
-  }
-
-}
+export async function t(){}

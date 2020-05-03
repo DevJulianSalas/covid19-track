@@ -16,9 +16,9 @@ const Search = (props) => {
         suffixIcon = { <SearchOutlined style={{fontSize: '15px'}} twoToneColor="#141414"/>}
         onChange={(choice) => props.onChangeOpt(choice)}
       >
-         { props.options.map(item => (
-          <Option key={item.city} value={item.city}>
-            {item.city}
+         { props.options.map((item, key) => (
+          <Option key={key} value={item.cuidad}>
+            {item.cuidad}
           </Option>
         ))}
     </Select>

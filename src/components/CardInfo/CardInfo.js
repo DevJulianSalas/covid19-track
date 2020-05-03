@@ -5,45 +5,43 @@ const { Meta } = Card;
 
 
 const CardInfo = ( props ) => {
-  const { infected, deceased, recover, mild } = props.covidData
+  console.log(props)
+  const dataCov = [
+    {
+      title: 'Número de Infectados',
+      icon: '.',
+      count: props.covData !== null ? props.covData.infected : 0
+    },
+    {
+      title: 'Número de Fallecidos',
+      icon: '.',
+      count: props.covData !== null ? props.covData.deceased : 0
+    },
+    {
+      title: 'Número de Recuperados',
+      icon: '.',
+      count: props.covData !== null ? props.covData.recover : 0
+    },
+    {
+      title: 'Número de Leves',
+      icon: '.',
+      count: props.covData !== null ? props.covData.mild : 0
+    },
+  ]
+  const cardData = dataCov.map((data, i) => (
+    <Card key={i} style={{ width: 300, marginTop: 16 }} loading={props.loading}>
+      <Meta
+        avatar={
+          <Avatar src={data.icon}/>
+        }
+        title={data.count}
+        description={data.title}
+      />
+    </Card>
+  ))
   return (
     <div>
-      <Card style={{ width: 300, marginTop: 16 }} loading={props.loading}>
-        <Meta
-          avatar={
-            <Avatar src={props.image}/>
-          }
-          title="Número de Infectados"
-          description={infected}
-        />
-      </Card>
-      <Card style={{ width: 300, marginTop: 16 }} loading={props.loading}>
-        <Meta
-          avatar={
-            <Avatar src={props.image}/>
-          }
-          title="Número de Fallecidos"
-          description={deceased}
-        />
-      </Card>
-      <Card style={{ width: 300, marginTop: 16 }} loading={props.loading}>
-        <Meta
-          avatar={
-            <Avatar src={props.image}/>
-          }
-          title="Número de Recuperados"
-          description={recover}
-        />
-      </Card>
-      <Card style={{ width: 300, marginTop: 16 }} loading={props.loading}>
-        <Meta
-          avatar={
-            <Avatar src={props.image}/>
-          }
-          title="Número de Leves"
-          description={mild}
-        />
-      </Card>
+      { cardData }
     </div>
   )
 }

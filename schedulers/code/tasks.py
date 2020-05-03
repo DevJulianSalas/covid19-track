@@ -80,16 +80,16 @@ def get_data_cov():
 
 
 app.conf.beat_schedule = {
-    # 'add-metadata-api': {
-    #     'task': 'get_metadata',
-    #     'schedule': crontab('*/5')
-    # },
-    # 'add-datacov-api': {
-    #     'task': 'get_data_cov',
-    #     'schedule': crontab('*/3')
-    # },
+    'add-metadata-api': {
+        'task': 'get_metadata',
+        'schedule': crontab(minute=0, hour='*/1')
+    },
+    'add-datacov-api': {
+        'task': 'get_data_cov',
+        'schedule': crontab(minute=0, hour='*/1')
+    },
     'add-cities-api': {
         'task': 'get_cities',
-        'schedule': crontab('*/3')
+        'schedule': crontab(minute=0, hour='*/1')
     },
 }

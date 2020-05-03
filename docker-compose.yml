@@ -52,6 +52,4 @@ services:
     volumes: 
       - ./home/mongodb:/home/mongodb
       - ./data/db:/data/db
-      - ./config/:/data/configdb
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-      
+      - ./mongo-scripts:/docker-entrypoint-initdb.d:ro

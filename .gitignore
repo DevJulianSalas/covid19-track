@@ -30,4 +30,4 @@ celerybeat-schedule
 
 data/
 home/
-mongo-init.js
+mongo-scripts/*.js

@@ -3,8 +3,7 @@ import { Row, Col } from 'antd';
 import Search from '../../components/Search/Search'
 import CardInfo from '../../components/CardInfo/CardInfo'
 
-//firebase
-import { getGeneralData, getCities, getDataByCity } from '../../api/index'
+import { getCities, getCovData } from '../../api/index'
 
 //styles
 import './home.scss'
@@ -16,39 +15,28 @@ const searchStyles = {
 
 const Home = () => {
   const [selectedValue, setselectedValue] = useState('')
-  const [covidData, setcovidData] = useState({})
+  const [covData, setcovData] = useState({})
   const [loading, setLoading] = useState(false)
-  const [choices, setchoices] = useState([
-    {
-      city: 'Bogotá D.C.',
-      cod: '11001'
-    },
-    {
-      city: 'Arenal',
-      cod: '13042'
-    }
-  ])
+  const [choices, setchoices] = useState([])
 
-  // useEffect(() => {
-  //   const getCities = async() => {
-  //     setLoading(true)
-  //     setTimeout(() => {
-  //       console.log('dd')
-  //       setLoading(false)
-  //     }, 3000);
-  //   }
-  //   getCities()
-  // }, [])
+  useEffect(() => {
+    const getCitiesData = async() => {
+      const cities = await getCities()
+      if (cities){
+        setchoices(cities)
+      }
+    }
+    getCitiesData()
+  }, [])
 
   // getGeneralData()
 
   const onChangeOpt = async( option ) => {
-    console.log('s')
-    // setselectedValue(option)
-    // setLoading(true)
-    // const data = await getDataByCity(option)
-    // setLoading(false)
-    // setcovidData({...covidData, ...data})
+    setselectedValue(option)
+    setLoading(true)
+    const data = await getCovData(option)
+    setLoading(false)
+    setcovData({...covData, ...data})
   }
 
   return (
@@ -66,7 +54,7 @@ const Home = () => {
       </Row>
       <Row>
         <Col lg={24} xs={24}>
-          <CardInfo covidData={covidData} loading={loading}/>
+          <CardInfo covData={covData} loading={loading}/>
         </Col>
       </Row>
     </>
