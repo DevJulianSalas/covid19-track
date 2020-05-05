@@ -1,11 +1,12 @@
 import React from 'react';
 import { Card, Avatar } from 'antd';
 
+import './cardInfo.scss'
+
 const { Meta } = Card;
 
 
 const CardInfo = ( props ) => {
-  console.log(props)
   const dataCov = [
     {
       title: 'Número de Infectados',
@@ -29,18 +30,15 @@ const CardInfo = ( props ) => {
     },
   ]
   const cardData = dataCov.map((data, i) => (
-    <Card key={i} style={{ width: 300, marginTop: 16 }} loading={props.loading}>
+    <Card key={i} style={{ width: 250, marginTop: 16 }} loading={props.loading}>
       <Meta
-        avatar={
-          <Avatar src={data.icon}/>
-        }
         title={data.count}
         description={data.title}
       />
     </Card>
   ))
   return (
-    <div>
+    <div className="cardData">
       { cardData }
     </div>
   )

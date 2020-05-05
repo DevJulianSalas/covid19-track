@@ -5,7 +5,6 @@ import { SearchOutlined } from '@ant-design/icons';
 const { Option } = Select
 
 const Search = (props) => {
-  console.log(props)
   return (
     <Select
         showSearch

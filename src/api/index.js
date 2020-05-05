@@ -34,4 +34,14 @@ export async function getCovData(city) {
   }
 }
 
-export async function t(){}
+export async function getMetaData() {
+  try {
+    const { status, data } = await axiosInstance.get('/metadata') 
+    console.log(data)
+    if (status === 200) {
+      return data
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
