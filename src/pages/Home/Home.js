@@ -34,7 +34,6 @@ const Home = () => {
       setloadingMeta(true)
       const data = await getMetaData()
       if (data) {
-        console.log(data)
         setloadingMeta(false)
         setcovMetaData(data)
       }
@@ -43,7 +42,6 @@ const Home = () => {
       setLoading(true)
       const data = await getCovData()
       if (data) {
-        console.log(data)
         setLoading(false)
         setcovData({...covData, ...data})
 

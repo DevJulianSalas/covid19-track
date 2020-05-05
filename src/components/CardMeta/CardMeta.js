@@ -12,6 +12,7 @@ const CardMeta = ({covMetadata, loading, ...rest}) => {
         <Row>
           <Col className="cardTitle ant-card-meta-title" lg={6} xs={24}>
             <h3>Actualización</h3>
+            <Divider/>
             <h2 className="cardDescription">15 de mayo del 2020</h2>
             <p className="ant-card-meta-title">Fecha de creación</p>
             <p className="ant-card-meta-description">27 de marzo de 2020</p>
@@ -21,6 +22,7 @@ const CardMeta = ({covMetadata, loading, ...rest}) => {
           </Col>
           <Col className="cardTitle ant-card-meta-title" lg={16} xs={24}>
             <h3>Información entidad emisora</h3>
+            <Divider/>
             <Row>
               <Col lg={12}>
                 <span className="ant-card-meta-title">Nombre de la entidad</span>
