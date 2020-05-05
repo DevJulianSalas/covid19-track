@@ -11,6 +11,8 @@ import DefaultLayout from '../layouts/default/default'
 
 //views
 import Home from '../pages/Home/Home'
+import Statistics from '../pages/Statistics/Statistics'
+import Recommendations from '../pages/Recommendations/Recommendations'
 
 
 const DefaultRoute = ({ component: Component, ...rest} ) => (
@@ -27,6 +29,8 @@ const MainRoute  = () => (
   <Router>
     <Switch>
       <DefaultRoute exact path={'/'} component={Home}/>
+      <DefaultRoute exact path={'/estadisticas'} component={Statistics}/>
+      <DefaultRoute exact path={'/recomendaciones'} component={Recommendations}/>
     </Switch>
   </Router>
 )

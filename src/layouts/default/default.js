@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 import { Layout, Menu } from 'antd';
 import { HomeOutlined, WarningOutlined, BarChartOutlined  } from '@ant-design/icons';
 
@@ -9,22 +10,31 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 const DefaultLayout = ( props ) => {
+  const onNavigation = (nav) => {
+    console.log(nav)
+  }
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider breakpoint="lg" collapsedWidth="0" >
         <div className="logo"/>
-        <Menu theme="dark" defaultSelectedKeys={[1]} mode="inline">
-          <Menu.Item key="1">
+        <Menu onSelect={onNavigation} theme="dark" defaultSelectedKeys={[1]} mode="inline">
+          <Menu.Item key="1" >
             <HomeOutlined />
-            <span>Inicio</span>
+            <Link to="/">
+              <span>Inicio</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="2">
             <WarningOutlined />
-            <span>Recomendaciones</span>
+            <Link to="/recomendaciones">
+              <span>Recomendaciones</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="3">
             <BarChartOutlined />
-            <span>Estadísticas</span>
+            <Link to="/estadisticas">
+              <span>Estadísticas</span>
+            </Link>
           </Menu.Item>
         </Menu>
       </Sider>
